@@ -16,18 +16,18 @@ jobs:
       os: [windows-latest, macos-latest]
 
   steps:
-      uses: actions/checkout@v3
-      uses: actions/setup-node@v3
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
         node-version: 16
 
-    - name: install Dependencies
+    - name: Install Dependencies
       run: npm install
 
-    - name: cleanup Artifacts for Windows
+    - name: Cleanup Artifacts for Windows
       if: matrix.os == 'windows-latest'
       run: npm run build:win
 
-    - name: cleanup Artifacts for MacOS
+    - name: Cleanup Artifacts for MacOS
       if: matrix.os == 'macos-latest'
       run: npm run build:mac
