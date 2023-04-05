@@ -41,5 +41,5 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: notion
+  provider: github
   url: https://github.com/wzx-3015/notion
