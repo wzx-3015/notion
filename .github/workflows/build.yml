@@ -7,12 +7,7 @@ on:
 
 jobs:
   container-test-job:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -20,13 +15,7 @@ jobs:
         with:
           node-version: 16
 
-      - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          # GitHub token, automatically provided to the action
-          # (No need to define this secret in the repo settings)
-          github_token: ${{ secrets.github_token }}
-
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      - name: Build Electron App
+          run: build:win
+          env:
+            GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
