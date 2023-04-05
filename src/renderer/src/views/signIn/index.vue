@@ -139,8 +139,7 @@ const avatarSrc = new URL('./image/3ea6beec64369c2642b92c6726f1epng.png', import
 // const attendanceTypeOptions = getAttendanceTypeOptions()
 // const workplaceOptions = getWorkplaceOptions()
 const employeeOptions = ref([]);
-console.log(workplaceOptions)
-console.log(attendanceTypeOptions)
+
 const ruleForm = ref(null)
 
 const loading = ref(true)
