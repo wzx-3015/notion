@@ -52,7 +52,6 @@ export const readConfig = (path) => {
           log.error(`readFile ${path} 文件为空`)
         }
       } catch (error) {
-        console.dir(error.title)
         log.error(error)
         reject(error)
       }
