@@ -42,8 +42,6 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
           files: dist/**
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
