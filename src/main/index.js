@@ -1,11 +1,13 @@
-import { app, shell, BrowserWindow, dialog } from 'electron'
+import { app, shell, BrowserWindow, dialog, autoUpdater } from 'electron'
 import { join, dirname } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import ElectronStore from 'electron-store'
-import { getConfigPath, readConfig } from './tool'
+import { getConfigPath, readConfig, getSystem } from './tool'
+app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion')
 
 const LanguagePath = app.isPackaged ? dirname(app.getPath("exe")) : app.getAppPath()
+
 //  '/v1/users'
 function createWindow() {
   // Create the browser window.
@@ -32,6 +34,24 @@ function createWindow() {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
+
+  if (getSystem() !== 1) {
+    // 限制只可以打开一个应用
+    const gotTheLock = app.requestSingleInstanceLock()
+
+    if (!gotTheLock) {
+      app.quit()
+    } else {
+      app.on('second-instance', () => {
+        // 当运行第二个实例时,将会聚焦到win这个窗口
+        if (mainWindow) {
+          if (mainWindow.isMinimized()) win.restore()
+          mainWindow.focus()
+          mainWindow.show()
+        }
+      })
+    }
+  }
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
