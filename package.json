@@ -1,6 +1,6 @@
 {
   "name": "notion",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "An Electron application with Vue",
   "main": "./out/main/index.js",
   "author": "example.com",
