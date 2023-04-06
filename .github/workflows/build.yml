@@ -22,30 +22,14 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Cleanup Artifacts for Windows
-        if: matrix.os == 'windows-latest'
-        run: npm run build:win
-
-      - name: Cleanup Artifacts for MacOS
-        if: matrix.os == 'macos-latest'
-        run: npm run build:mac
-
-      - name: upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Build/release Electron app
+        uses: paneron/action-electron-builder@v1.8.1
         with:
-          name: ${{ github.ref }}
-          path: dist
+          # GitHub token, automatically provided to the action
+          # (No need to define this secret in the repo settings)
+          github_token: ${{ secrets.github_token }}
+          release: true
 
-      - name: release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: dist/*
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          # If the commit is tagged with a version (e.g. "v1.0.0"),
+          # release the app after building
+          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
