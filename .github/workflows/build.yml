@@ -48,6 +48,8 @@ jobs:
         if: startsWith(github.ref, 'refs/tags')
         with:
           tag_name: ${{ github.ref }}
-          files: dist/**
+          files: |
+            dist/notion.exe
+            dist/latest.yml
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
