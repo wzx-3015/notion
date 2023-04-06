@@ -2,8 +2,8 @@ name: Build
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - 'v*'
 
 jobs:
   release:
@@ -45,8 +45,9 @@ jobs:
 
       - name: release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags')
         with:
           tag_name: ${{ github.ref }}
-          files: /dist/**
+          files: dist/**
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
