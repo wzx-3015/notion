@@ -22,31 +22,28 @@ jobs:
         with:
           node-version: 16
 
-      - name: Build/release Electron app
+      - name: install/release Electron app
         run: npm install
 
-      - name: Cleanup Artifacts for Windows
+      - name: Build/release Electron windows
         if: matrix.os == 'windows-latest'
-        run: |
-          npm run build:win
-          npx rimraf "dist/!(*.exe)"
+        run: npm run build:win
 
-      - name: Cleanup Artifacts for MacOS
+      - name: Build/release Electron MacOS
         if: matrix.os == 'macos-latest'
-        run: |
-          npm run build:mac
-          npx rimraf "dist/!(*.dmg)"
+        run: npm run build:mac
 
       - name: upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ github.ref }}
           path: dist
 
       - name: release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags')
         with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
           files: dist/**
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
